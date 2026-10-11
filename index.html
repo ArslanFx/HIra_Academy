@@ -1,6 +1,7 @@
     <!DOCTYPE html>
     <html lang="en">
     <head>
+        <meta name="google-site-verification" content="34mFmOe_4u-nytRypZqce3tQrfkm-N_2VaCj6YWKrOs" />
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Hira's Academy | Trade with Hira</title>
@@ -38,7 +39,7 @@
             }
 
             * { margin: 0; padding: 0; box-sizing: border-box; }
-            html { scroll-behavior: smooth; }
+            html { scroll-behavior: smooth; overflow-x: clip; }
 
             body {
                 font-family: 'Poppins', sans-serif;
@@ -475,6 +476,102 @@
                 font-weight: 500; letter-spacing: 0.5px;
             }
 
+            /* ═══════════ FLOATING XAUUSD ASSISTANT ═══════════ */
+            .assistant-launcher {
+                position: fixed; left: 30px; bottom: 30px; z-index: 9999;
+                width: 60px; height: 60px; border: 0; border-radius: 50%;
+                display: flex; align-items: center; justify-content: center;
+                background: var(--accent-color); color: #111; font-size: 25px;
+                box-shadow: 0 8px 24px rgba(var(--accent-rgb), 0.35);
+                cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;
+            }
+            .assistant-launcher:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(var(--accent-rgb), 0.45); }
+            .assistant-launcher:focus-visible, .assistant-close:focus-visible {
+                outline: 3px solid var(--text-main); outline-offset: 3px;
+            }
+            .assistant-panel {
+                position: fixed; left: 30px; bottom: 104px; z-index: 10000;
+                width: 390px; height: min(610px, calc(100dvh - 130px));
+                min-height: 0; padding: 0; display: flex; flex-direction: column;
+                overflow: hidden; border-radius: 22px 22px 18px 18px;
+                background: #090909; color: var(--text-main);
+                border: 1px solid rgba(var(--accent-rgb), 0.28);
+                box-shadow: 0 18px 60px rgba(0,0,0,0.55);
+                font-family: 'Poppins', sans-serif;
+            }
+            .assistant-panel[hidden] { display: none; }
+            .assistant-header {
+                min-height: 76px; padding: 14px 20px;
+                display: flex; align-items: center; justify-content: space-between;
+                gap: 16px; background: #0c0c0c; color: var(--text-main);
+                border-bottom: 1px solid rgba(var(--accent-rgb), 0.35);
+            }
+            .assistant-heading { display: flex; align-items: center; gap: 12px; min-width: 0; }
+            .assistant-heading-icon { color: var(--accent-color); font-size: 22px; }
+            .assistant-heading strong { display: block; font-size: 19px; line-height: 1.25; }
+            .assistant-heading small { display: block; margin-top: 3px; color: var(--text-muted); font-size: 11px; }
+            .assistant-close {
+                width: 38px; height: 38px; flex: 0 0 auto; border: 0;
+                background: transparent; color: var(--text-muted); font-size: 20px; cursor: pointer;
+            }
+            .assistant-chat {
+                flex: 1; min-height: 0; padding: 16px 14px;
+                overflow-y: auto; background: #070707;
+            }
+            .assistant-conversation { display: flex; flex-direction: column; gap: 14px; }
+            .assistant-message { display: flex; align-items: flex-end; gap: 8px; max-width: 90%; }
+            .assistant-message.hira-message { align-self: flex-start; }
+            .assistant-message.you-message { align-self: flex-end; justify-content: flex-end; }
+            .assistant-avatar {
+                width: 42px; height: 42px; flex: 0 0 auto; border-radius: 50%;
+                display: block; overflow: hidden;
+                background: rgba(var(--accent-rgb), 0.18);
+                border: 1px solid rgba(var(--accent-rgb), 0.5);
+            }
+            .assistant-avatar img {
+                width: 100%; height: 100%; display: block;
+                object-fit: cover; object-position: center 18%; transform: scale(1.6);
+            }
+            .assistant-message-content { min-width: 0; }
+            .assistant-sender { display: block; margin: 0 0 4px 3px; color: var(--accent-color); font-size: 11px; font-weight: 600; }
+            .you-message .assistant-sender { color: var(--primary-color); text-align: right; }
+            .assistant-message-bubble {
+                margin: 0; padding: 10px 13px; border-radius: 14px 14px 14px 4px;
+                background: #171717; border: 1px solid rgba(var(--accent-rgb), 0.25);
+                color: #eee; line-height: 1.55; font-size: 13px; overflow-wrap: anywhere;
+            }
+            .you-message .assistant-message-bubble {
+                border: 0; border-radius: 14px 14px 4px 14px;
+                background: rgba(var(--primary-rgb), 0.16); color: #eafff4;
+            }
+            .assistant-prompts {
+                max-height: 210px; padding: 10px 14px 12px; overflow-y: auto;
+                border-top: 1px solid rgba(255,255,255,0.08); background: #0b0b0b;
+            }
+            .assistant-prompts-toggle {
+                width: 100%; padding: 0; border: 0; display: flex;
+                align-items: center; justify-content: space-between;
+                background: transparent; color: var(--text-muted);
+                font: 500 11px 'Poppins', sans-serif; text-align: left; cursor: pointer;
+            }
+            .assistant-prompts-toggle i { color: var(--accent-color); transition: transform 0.2s ease; }
+            .assistant-prompts.collapsed .assistant-prompts-toggle i { transform: rotate(180deg); }
+            .assistant-prompts.collapsed .assistant-questions { display: none; }
+            .assistant-questions { display: flex; flex-direction: column; align-items: flex-end; gap: 7px; }
+            .assistant-questions { margin-top: 8px; }
+            .assistant-question {
+                max-width: 96%; padding: 7px 11px; border: 1px solid rgba(var(--accent-rgb), 0.5);
+                border-radius: 13px; background: #111; color: #f2c36c;
+                font: 500 12px 'Poppins', sans-serif; text-align: left;
+                cursor: pointer; transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+            }
+            .assistant-question:hover, .assistant-question:focus-visible { border-color: var(--primary-color); color: var(--primary-color); }
+            .assistant-question:focus-visible { outline: 2px solid var(--primary-color); outline-offset: 2px; }
+            .assistant-footer {
+                padding: 10px 14px; border-top: 1px solid rgba(255,255,255,0.08);
+                color: var(--text-muted); font-size: 10px; text-align: center;
+            }
+
             /* ═══════════ FOOTER ═══════════ */
             footer {
                 padding: 60px 80px; background: #000;
@@ -569,6 +666,11 @@
                 .about-grid { grid-template-columns: 1fr; gap: 40px; }
                 .about-img { height: 350px; }
                 .testimonials-grid { grid-template-columns: 1fr; }
+                .assistant-launcher { left: 20px; bottom: 20px; }
+                .assistant-panel {
+                    left: 12px; bottom: 94px; width: calc(100vw - 24px);
+                    height: min(610px, calc(100dvh - 116px)); min-height: 320px;
+                }
 
                 .btn { padding: 12px 30px; font-size: 16px; }
                 .hero-buttons { flex-direction: column; align-items: center; }
@@ -611,6 +713,47 @@
             <i class="fab fa-whatsapp" aria-hidden="true"></i>
         </a>
 
+        <button class="assistant-launcher" id="assistant-launcher" type="button" aria-label="Open XAUUSD assistant" aria-controls="assistant-panel" aria-expanded="false">
+            <i class="fas fa-comment-dots" aria-hidden="true"></i>
+        </button>
+        <section class="assistant-panel" id="assistant-panel" aria-label="XAUUSD customer support" hidden>
+            <header class="assistant-header">
+                <div class="assistant-heading">
+                    <i class="fas fa-coins assistant-heading-icon" aria-hidden="true"></i>
+                    <div><strong>XAUUSD Support</strong><small>Gold trading quick answers</small></div>
+                </div>
+                <button class="assistant-close" id="assistant-close" type="button" aria-label="Close assistant">
+                    <i class="fas fa-xmark" aria-hidden="true"></i>
+                </button>
+            </header>
+            <div class="assistant-chat" id="assistant-chat">
+                <div class="assistant-conversation" id="assistant-conversation" role="log" aria-live="polite" aria-relevant="additions">
+                    <div class="assistant-message hira-message">
+                        <div class="assistant-avatar" aria-hidden="true"><img src="./img/WhatsApp Image 2026-09-23 at 10.36.59 AM.jpeg" alt=""></div>
+                        <div class="assistant-message-content">
+                            <span class="assistant-sender">Hira</span>
+                            <p class="assistant-message-bubble">Hello! I'm Hira. What would you like to know about XAUUSD?</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="assistant-prompts">
+                <button class="assistant-prompts-toggle" id="assistant-prompts-toggle" type="button" aria-expanded="true" aria-controls="assistant-questions">
+                    <span>Quick questions</span><i class="fas fa-chevron-down" aria-hidden="true"></i>
+                </button>
+                <div class="assistant-questions" id="assistant-questions" aria-label="Frequently asked XAUUSD questions">
+                    <button class="assistant-question" type="button" data-answer="xauusd">What is XAUUSD?</button>
+                    <button class="assistant-question" type="button" data-answer="signals">What details are included in a signal?</button>
+                    <button class="assistant-question" type="button" data-answer="accuracy">What is the advertised signal accuracy?</button>
+                    <button class="assistant-question" type="button" data-answer="course">What does the course include?</button>
+                    <button class="assistant-question" type="button" data-answer="beginner">Is the course suitable for beginners?</button>
+                    <button class="assistant-question" type="button" data-answer="sessions">When do you analyze Gold?</button>
+                    <button class="assistant-question" type="button" data-answer="risk">How can I start Gold trading responsibly?</button>
+                </div>
+            </div>
+            <div class="assistant-footer">Learn at your pace. Consistency starts with a clear plan.</div>
+        </section>
+
         <!-- NAVBAR -->
         <nav role="navigation" aria-label="Main navigation">
             <div>
@@ -621,11 +764,11 @@
                 <span></span><span></span><span></span>
             </button>
             <div class="nav-links">
-                <a href="#home" class="nav-active">Home</a>
-                <a href="#about">About</a>
-                <a href="#services">Services</a>
-                <a href="#courses">Signals</a>
-                <a href="#testimonials">Reviews</a>
+                <a href="index.html" class="nav-active">Home</a>
+                <a href="about.html">About</a>
+                <a href="Servicess.html">Services</a>
+                <a href="Signals.html">Signals</a>
+                <a href="Reviews.html">Reviews</a>
                 <a href="https://chat.whatsapp.com/CTkxAcFTK6iGOhd062JOma" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding:8px 20px;font-size:13px;">Join Now</a>
             </div>
         </nav>
@@ -633,11 +776,11 @@
         <!-- HERO -->
         <section id="home">
             <div class="hero-content">
-                <h1 class="reveal">Master The Markets <br> With <span class="highlight">Hira's Academy</span></h1>
-                <p class="reveal" style="transition-delay: 0.15s;">Stop guessing, start trading. Get premium <strong>XAUUSD (Gold)</strong> signals, expert mentorship, and daily market analysis to secure your financial future.</p>
+                <h1 class="reveal">Master <span class="highlight">XAUUSD Gold</span> <br> With Hira's Academy</h1>
+                <p class="reveal" style="transition-delay: 0.15s;">This is a Gold-only trading brand built around one pair: <strong>XAUUSD</strong>. Explore structured signal plans, focused Gold analysis, and practical guidance for understanding an active global market.</p>
                 <div class="hero-buttons reveal" style="transition-delay: 0.3s;">
                     <a href="https://chat.whatsapp.com/CTkxAcFTK6iGOhd062JOma" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Get VIP Access <i class="fab fa-whatsapp" aria-hidden="true"></i></a>
-                    <a href="#services" class="btn btn-secondary">View Services</a>
+                    <a href="Servicess.html" class="btn btn-secondary">View Services</a>
                 </div>
             </div>
         </section>
@@ -647,8 +790,8 @@
             <h2 class="section-title reveal">Who Is <span>Hira</span>?</h2>
             <div class="about-grid">
                 <div class="about-text reveal-left">
-                    <p>Welcome to Hira's Academy! With over 5+ years of experience specializing in the <strong>XAUUSD (Gold)</strong> market, I have helped thousands of students transform their trading from gambling into a professional skill.</p>
-                    <p>My strategy focuses on Price Action, Smart Money Concepts (SMC), and strict risk management specifically tailored for Gold volatility. We don't just give signals; we teach you how to fish for a lifetime.</p>
+                    <p>Welcome to Hira's Academy! With over 5+ years of experience specializing in the <strong>XAUUSD (Gold)</strong> market, I help students build a more structured, informed approach to trading.</p>
+                    <p>My strategy focuses on Price Action, Smart Money Concepts (SMC), and thoughtful risk planning based on Gold's market behavior. We don't just share signals; we help you build skills you can continue developing.</p>
                     <a href="https://wa.me/923190165137" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="margin-top: 20px;">Message Me Directly</a>
                 </div>
                 <div class="about-img reveal-right">
@@ -691,7 +834,7 @@
             <h2 class="section-title reveal">Student <span>Reviews</span></h2>
             <div class="testimonials-grid">
                 <div class="testimonial-card reveal" style="transition-delay: 0s;">
-                    <p>"Hira's academy changed my life. I was losing consistently, but after learning Gold SMC from Hira, I had my first profitable month!"</p>
+                    <p>"Hira's academy changed my approach. Learning Gold SMC helped me understand the reasoning behind trades and work toward my first profitable month."</p>
                     <div class="testimonial-author"><div class="author-avatar">A</div><div class="author-info"><strong>Ahmed Khan</strong><span>VIP Member</span></div></div>
                 </div>
                 <div class="testimonial-card reveal" style="transition-delay: 0.1s;">
@@ -721,8 +864,8 @@
                     <i class="fab fa-whatsapp" aria-hidden="true"></i>
                 </a>
             </div>
-            <p style="color: var(--text-muted); font-size: 14px;">&copy; 2024 Hira's Academy. All Rights Reserved.</p>
-            <p class="footer-disclaimer">Trading involves significant risk of loss. Past performance is not indicative of future results.</p>
+            <p style="color: var(--text-muted); font-size: 14px;">&copy; 2026 Hira's Academy. All Rights Reserved.</p>
+            <p class="footer-disclaimer">Learn at your pace and make informed decisions. Past performance does not guarantee future results.</p>
         </footer>
 
         <script>
@@ -805,6 +948,67 @@
                     if (navLinks.classList.contains('open')) {
                         toggleMobileNav();
                     }
+                });
+            });
+
+            /* ═══════════ XAUUSD CHAT RESPONSES ═══════════ */
+            const assistantAnswers = {
+                xauusd: '<strong>XAUUSD</strong> is Gold priced in US dollars. Here we focus on one pair, so you can steadily learn its price action, liquidity, market structure, and trading sessions. A clear focus is a great place to build your skills.',
+                signals: 'Each signal includes an <strong>entry, stop loss, take-profit levels, and setup reasoning</strong>, so you can understand how a Gold trade is planned. Use the explanation to strengthen your own analysis and follow a risk level that suits you.',
+                accuracy: 'The academy advertises signal accuracy of <strong>up to 95%</strong>. This is an advertised figure, not an independently verified or guaranteed result; performance can vary. Hira focuses on clear XAUUSD analysis and disciplined trade planning.',
+                course: 'The Beginner A-Z course includes <strong>20+ video modules</strong>, chart reading from scratch, SMC basics and Price Action, risk management, practice assignments, and quizzes. It is a structured 30-day path to help you build a strong Gold-trading foundation.',
+                beginner: 'Absolutely. The course is designed to take you from <strong>the basics onward</strong>: chart reading, Gold-focused Price Action and SMC, plus risk management. Learn one step at a time, practice what you learn, and build confidence at your own pace.',
+                sessions: 'Hira focuses on XAUUSD during the <strong>London and New York sessions</strong>, when Gold often has active price movement. The goal is to wait for a clear setup and follow a consistent process rather than rush into a trade.',
+                risk: 'A thoughtful start is a strong start. Begin with the course basics and practice on a <strong>demo account</strong> while you learn. If you later choose to trade live, start small, use a stop loss, and only risk an amount you are comfortable with. Take your time and build your plan step by step.'
+            };
+            const assistantPanel = document.getElementById('assistant-panel');
+            const assistantLauncher = document.getElementById('assistant-launcher');
+            const assistantClose = document.getElementById('assistant-close');
+            const assistantChat = document.getElementById('assistant-chat');
+            const assistantConversation = document.getElementById('assistant-conversation');
+            const assistantPrompts = document.querySelector('.assistant-prompts');
+            const assistantPromptsToggle = document.getElementById('assistant-prompts-toggle');
+
+            assistantPromptsToggle.addEventListener('click', function() {
+                const isExpanded = assistantPrompts.classList.toggle('collapsed') === false;
+                assistantPromptsToggle.setAttribute('aria-expanded', String(isExpanded));
+                assistantPromptsToggle.querySelector('span').textContent = isExpanded ? 'Quick questions' : 'Ask another question';
+            });
+
+            function setAssistantOpen(isOpen) {
+                assistantPanel.hidden = !isOpen;
+                assistantLauncher.setAttribute('aria-expanded', String(isOpen));
+                if (isOpen) assistantClose.focus();
+                else assistantLauncher.focus();
+            }
+
+            assistantLauncher.addEventListener('click', function() {
+                setAssistantOpen(assistantPanel.hidden);
+            });
+            assistantClose.addEventListener('click', function() {
+                setAssistantOpen(false);
+            });
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && !assistantPanel.hidden) setAssistantOpen(false);
+            });
+
+            document.querySelectorAll('.assistant-question').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    const userMessage = document.createElement('div');
+                    userMessage.className = 'assistant-message you-message';
+                    userMessage.innerHTML = '<div class="assistant-message-content"><span class="assistant-sender">You</span><p class="assistant-message-bubble"></p></div>';
+                    userMessage.querySelector('.assistant-message-bubble').textContent = button.textContent.trim();
+                    assistantConversation.appendChild(userMessage);
+
+                    const hiraMessage = document.createElement('div');
+                    hiraMessage.className = 'assistant-message hira-message';
+                    hiraMessage.innerHTML = '<div class="assistant-avatar" aria-hidden="true"><img src="./img/WhatsApp Image 2026-09-23 at 10.36.59 AM.jpeg" alt=""></div><div class="assistant-message-content"><span class="assistant-sender">Hira</span><p class="assistant-message-bubble"></p></div>';
+                    hiraMessage.querySelector('.assistant-message-bubble').innerHTML = assistantAnswers[button.dataset.answer];
+                    assistantConversation.appendChild(hiraMessage);
+                    assistantPrompts.classList.add('collapsed');
+                    assistantPromptsToggle.setAttribute('aria-expanded', 'false');
+                    assistantPromptsToggle.querySelector('span').textContent = 'Ask another question';
+                    assistantChat.scrollTop = assistantChat.scrollHeight;
                 });
             });
 
